@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Format;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class FormatsTableSeeder extends Seeder
 {
@@ -14,6 +14,26 @@ class FormatsTableSeeder extends Seeder
      */
     public function run()
     {
-        Format::factory(10)->create();
+        DB::table('formats')->truncate();
+
+        $data = [
+            [
+                'name' => 'ogv',
+                'type' => 'video/ogg; codecs="theora, vorbis"',
+                'ffmpeg_command' => 'command for converting to ogv',
+            ],
+            [
+                'name' => 'mp4',
+                'type' => 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"',
+                'ffmpeg_command' => 'command for converting to mp4',
+            ],
+            [
+                'name' => 'webm',
+                'type' => 'video/webm; codecs="vp8, vorbis"',
+                'ffmpeg_command' => 'command for converting to webm',
+            ],
+        ];
+
+        DB::table('formats')->insert($data);
     }
 }

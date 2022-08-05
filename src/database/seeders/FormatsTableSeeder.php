@@ -14,6 +14,24 @@ class FormatsTableSeeder extends Seeder
      */
     public function run()
     {
-        Format::factory(10)->create();
+        $data = [
+            [
+                'name' => 'ogv',
+                'type' => 'video/ogg; codecs="theora, vorbis"',
+                'ffmpeg_command' => 'command for converting to ogv',
+            ],
+            [
+                'name' => 'mp4',
+                'type' => 'video/mp4; codecs="avc, mp4"',
+                'ffmpeg_command' => 'command for converting to mp4',
+            ],
+            [
+                'name' => 'webm',
+                'type' => 'video/webm; codecs="vp8, vorbis"',
+                'ffmpeg_command' => 'command for converting to webm',
+            ],
+        ];
+
+        Format::factory(count($data))->sequence(fn ($sequence) => $data[$sequence->index])->create();
     }
 }

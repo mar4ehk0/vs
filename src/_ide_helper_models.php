@@ -18,18 +18,16 @@ namespace App\Models{
  * @property string $name
  * @property string $type
  * @property string $ffmpeg_command
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Source[] $sources
+ * @property-read int|null $sources_count
  * @method static \Database\Factories\FormatFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Format newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Format newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Format query()
- * @method static \Illuminate\Database\Eloquent\Builder|Format whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Format whereFfmpegCommand($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Format whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Format whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Format whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Format whereUpdatedAt($value)
  */
 	class Format extends \Eloquent {}
 }
@@ -40,6 +38,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Video[] $videos
+ * @property-read int|null $videos_count
  * @method static \Database\Factories\GenreFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Genre newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Genre newQuery()
@@ -48,6 +48,23 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Genre whereName($value)
  */
 	class Genre extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\GenreVideo
+ *
+ * @property int $id
+ * @property int $genre_id
+ * @property int $video_id
+ * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo query()
+ * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo whereGenreId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo whereVideoId($value)
+ */
+	class GenreVideo extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -63,6 +80,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Position[] $positions
+ * @property-read int|null $positions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Video[] $videos
+ * @property-read int|null $videos_count
  * @method static \Database\Factories\PersonFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Person newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Person newQuery()
@@ -80,10 +101,34 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\PersonVideo
+ *
+ * @property int $id
+ * @property int $person_id
+ * @property int $video_id
+ * @property int $position_id
+ * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo wherePersonId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo wherePositionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo whereVideoId($value)
+ */
+	class PersonVideo extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Position
  *
  * @property int $id
  * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Person[] $persons
+ * @property-read int|null $persons_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Video[] $videos
+ * @property-read int|null $videos_count
+ * @method static \Database\Factories\PositionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Position newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Position newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Position query()
@@ -103,7 +148,8 @@ namespace App\Models{
  * @property string $source_path
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Format|null $format
+ * @property-read \App\Models\Format $format
+ * @property-read \App\Models\Video $video
  * @method static \Illuminate\Database\Eloquent\Builder|Source newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Source newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Source query()
@@ -119,13 +165,20 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Traslation
+ * App\Models\Translation
  *
- * @method static \Illuminate\Database\Eloquent\Builder|Traslation newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Traslation newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Traslation query()
+ * @property int $id
+ * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Video[] $videos
+ * @property-read int|null $videos_count
+ * @method static \Database\Factories\TranslationFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Translation whereName($value)
  */
-	class Traslation extends \Eloquent {}
+	class Translation extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -175,6 +228,15 @@ namespace App\Models{
  * @property string $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Genre[] $genres
+ * @property-read int|null $genres_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Person[] $persons
+ * @property-read int|null $persons_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Position[] $positions
+ * @property-read int|null $positions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Source[] $sources
+ * @property-read int|null $sources_count
+ * @property-read \App\Models\Translation $translation
  * @method static \Illuminate\Database\Eloquent\Builder|Video newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Video newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Video query()

@@ -21,7 +21,7 @@ class Video extends Model
 
     public function translation()
     {
-        return $this->belongsTo(Traslation::class);
+        return $this->belongsTo(Translation::class);
     }
 
     public function sources()

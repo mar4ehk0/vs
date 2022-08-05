@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Genre;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GenresTableSeeder extends Seeder
@@ -15,6 +14,19 @@ class GenresTableSeeder extends Seeder
      */
     public function run()
     {
-        Genre::factory(50)->create();
+        $data = [
+            ['name' => 'Экшен'],
+            ['name' => 'Приключенческий фильм'],
+            ['name' => 'Комедия'],
+            ['name' => 'Драма'],
+            ['name' => 'Фантастика'],
+            ['name' => 'Исторический фильм'],
+            ['name' => 'Фильм ужасов'],
+            ['name' => 'Триллер'],
+            ['name' => 'Вестерн'],
+            ['name' => 'Научная фантастика'],
+        ];
+
+        Genre::factory(count($data))->sequence(fn ($sequence) => $data[$sequence->index])->create();
     }
 }

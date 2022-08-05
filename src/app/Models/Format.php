@@ -12,6 +12,7 @@ class Format extends Model
     protected $fillable = [
         'name', 'type', 'ffmpeg_command',
     ];
+    public $timestamps = false;
 
     public function sources()
     {

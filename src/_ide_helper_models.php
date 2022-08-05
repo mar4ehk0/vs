@@ -128,6 +128,7 @@ namespace App\Models{
  * @property-read int|null $persons_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Video[] $videos
  * @property-read int|null $videos_count
+ * @method static \Database\Factories\PositionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Position newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Position newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Position query()
@@ -170,6 +171,7 @@ namespace App\Models{
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Video[] $videos
  * @property-read int|null $videos_count
+ * @method static \Database\Factories\TranslationFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Translation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Translation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Translation query()

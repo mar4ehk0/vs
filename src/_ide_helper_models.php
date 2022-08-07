@@ -57,6 +57,7 @@ namespace App\Models{
  * @property int $id
  * @property int $genre_id
  * @property int $video_id
+ * @method static \Database\Factories\GenreVideoFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|GenreVideo query()
@@ -96,7 +97,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Person whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Person whereUpdatedAt($value)
  */
-	class Person extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+	class Person extends \Eloquent implements \App\Models\interfaces\ModelMediaInterface, \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -107,6 +108,7 @@ namespace App\Models{
  * @property int $person_id
  * @property int $video_id
  * @property int $position_id
+ * @method static \Database\Factories\PersonVideoFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PersonVideo query()
@@ -150,6 +152,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Format $format
  * @property-read \App\Models\Video $video
+ * @method static \Database\Factories\SourceFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Source newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Source newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Source query()
@@ -230,6 +233,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Genre[] $genres
  * @property-read int|null $genres_count
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Person[] $persons
  * @property-read int|null $persons_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Position[] $positions
@@ -237,6 +242,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Source[] $sources
  * @property-read int|null $sources_count
  * @property-read \App\Models\Translation $translation
+ * @method static \Database\Factories\VideoFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Video newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Video newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Video query()
@@ -252,6 +258,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereYear($value)
  */
-	class Video extends \Eloquent {}
+	class Video extends \Eloquent implements \App\Models\interfaces\ModelMediaInterface, \Spatie\MediaLibrary\HasMedia {}
 }
 

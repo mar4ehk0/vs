@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\interfaces\ModelMediaInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Person extends Model implements HasMedia
+class Person extends Model implements ModelMediaInterface
 {
     use HasFactory, InteractsWithMedia;
 
@@ -17,9 +17,14 @@ class Person extends Model implements HasMedia
         'name', 'last_name', 'birthday', 'about'
     ];
 
+    public function getNameMediaCollection(): string
+    {
+        return 'photo';
+    }
+
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('photo')
+        $this->addMediaCollection($this->getNameMediaCollection())
             ->singleFile();
     }
 

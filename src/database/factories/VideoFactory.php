@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Translation;
 use App\Models\Video;
 use Arr;
-use Database\Helpers\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +19,7 @@ class VideoFactory extends Factory
      */
     public function definition()
     {
-        Image::create($this->faker);
+        create_image($this->faker, get_img_directory());
 
         return [
             'name' => $this->faker->unique()->word(),

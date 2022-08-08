@@ -14,7 +14,7 @@ trait Unique
             $row[] = $param;
         }
 
-        if (!in_array($row, $buf, true)) {
+        if (!in_array($row, $buf)) {
             $buf[] = $row;
             return true;
         }

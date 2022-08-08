@@ -28,7 +28,7 @@ class VideoFactory extends Factory
             'duration' => random_int(3600, 10800),
             'country' => $this->faker->countryCode(),
             'age_limit' => random_int(0, 18),
-            'translation_id' => Arr::random(Translation::all()->pluck('id')->toArray()),
+            'translation_id' => Translation::inRandomOrder()->first(['id']),
             'type' => Arr::random(array_keys(Video::getTypes())),
         ];
     }

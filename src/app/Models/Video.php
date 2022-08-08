@@ -14,6 +14,7 @@ class Video extends Model implements ModelMediaInterface
     protected $fillable = [
         'name', 'description', 'year', 'duration', 'country', 'age_limit', 'type'
     ];
+    protected $casts = ['type' => Type::class];
 
     public function getNameMediaCollection(): string
     {

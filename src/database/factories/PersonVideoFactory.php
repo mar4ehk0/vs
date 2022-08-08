@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Person;
 use App\Models\Position;
 use App\Models\Video;
-use Arr;
 use Database\Factories\traits\Unique;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -25,9 +24,9 @@ class PersonVideoFactory extends Factory
     public function definition()
     {
         while (1) {
-            $person_id = Arr::random(Person::all()->pluck('id')->toArray());
-            $video_id = Arr::random(Video::all()->pluck('id')->toArray());
-            $position_id = Arr::random(Position::all()->pluck('id')->toArray());
+            $person_id = Person::inRandomOrder()->first(['id']);
+            $video_id = Video::inRandomOrder()->first(['id']);
+            $position_id = Position::inRandomOrder()->first(['id']);
 
             if ($this->unique($person_id, $video_id, $position_id)) {
                 break;

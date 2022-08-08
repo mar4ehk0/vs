@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Genre;
 use App\Models\Video;
-use Arr;
 use Database\Factories\traits\Unique;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -24,8 +23,8 @@ class GenreVideoFactory extends Factory
     public function definition()
     {
         while (1) {
-            $genre_id = Arr::random(Genre::all()->pluck('id')->toArray());
-            $video_id = Arr::random(Video::all()->pluck('id')->toArray());
+            $genre_id = Genre::inRandomOrder()->first(['id']);
+            $video_id = Video::inRandomOrder()->first(['id']);
 
             if ($this->unique($genre_id, $video_id)) {
                 break;

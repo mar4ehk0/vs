@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Format;
 use App\Models\Video;
-use Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +19,8 @@ class SourceFactory extends Factory
     public function definition()
     {
         return [
-            'video_id' => Arr::random(Video::all()->pluck('id')->toArray()),
-            'format_id' => Arr::random(Format::all()->pluck('id')->toArray()),
+            'video_id' => Video::inRandomOrder()->first(['id']),
+            'format_id' => Format::inRandomOrder()->first(['id']),
             'source_path' => $this->faker->filePath(),
         ];
     }

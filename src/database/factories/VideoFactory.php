@@ -3,9 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Translation;
+use App\Models\Type;
 use App\Models\Video;
 use Arr;
-use Database\Helpers\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +20,7 @@ class VideoFactory extends Factory
      */
     public function definition()
     {
-        Image::create($this->faker);
+        create_image($this->faker, get_img_directory());
 
         return [
             'name' => $this->faker->unique()->word(),
@@ -29,8 +29,8 @@ class VideoFactory extends Factory
             'duration' => random_int(3600, 10800),
             'country' => $this->faker->countryCode(),
             'age_limit' => random_int(0, 18),
-            'translation_id' => Arr::random(Translation::all()->pluck('id')->toArray()),
-            'type' => Arr::random(array_keys(Video::getTypes())),
+            'translation_id' => Translation::inRandomOrder()->first(['id']),
+            'type' => Arr::random(Type::cases()),
         ];
     }
 }

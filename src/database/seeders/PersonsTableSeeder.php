@@ -16,9 +16,7 @@ class PersonsTableSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 0; $i < 20; $i++) {
-            $person = Person::factory()->create();
-            Image::addMediaToModel($person);
-        }
+        Person::factory(20)->create()
+            ->each(fn(Person $person) =>add_media_to_model($person, get_img_directory()));
     }
 }

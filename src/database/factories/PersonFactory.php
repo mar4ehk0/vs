@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use Database\Helpers\Image;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +16,7 @@ class PersonFactory extends Factory
      */
     public function definition()
     {
-        Image::create($this->faker);
+        create_image($this->faker, get_img_directory());
 
         return [
             'name' => $this->faker->firstName(),

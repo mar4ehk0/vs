@@ -11,10 +11,6 @@ class Video extends Model implements ModelMediaInterface
 {
     use HasFactory, InteractsWithMedia;
 
-    public const VIDEO_MOVIE = 'movie';
-    public const VIDEO_SERIES = 'series';
-    public const VIDEO_CARTOON = 'cartoon';
-
     protected $fillable = [
         'name', 'description', 'year', 'duration', 'country', 'age_limit', 'type'
     ];
@@ -53,14 +49,5 @@ class Video extends Model implements ModelMediaInterface
     public function persons()
     {
         return $this->belongsToMany(Person::class)->using(PersonVideo::class);
-    }
-
-    public static function getTypes(): array
-    {
-        return [
-            self::VIDEO_MOVIE => 'Кино',
-            self::VIDEO_SERIES => 'Сериал',
-            self::VIDEO_CARTOON => 'Мультфильм',
-        ];
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Translation;
+use App\Models\Type;
 use App\Models\Video;
 use Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -29,7 +30,7 @@ class VideoFactory extends Factory
             'country' => $this->faker->countryCode(),
             'age_limit' => random_int(0, 18),
             'translation_id' => Translation::inRandomOrder()->first(['id']),
-            'type' => Arr::random(array_keys(Video::getTypes())),
+            'type' => Arr::random(Type::cases()),
         ];
     }
 }

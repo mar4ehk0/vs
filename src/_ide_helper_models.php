@@ -228,7 +228,7 @@ namespace App\Models{
  * @property string $country
  * @property int $age_limit
  * @property int $translation_id
- * @property string $type
+ * @property \App\Models\Type $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Genre[] $genres

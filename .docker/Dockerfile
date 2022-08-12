@@ -33,6 +33,8 @@ RUN set -x \
         less \
         zip \
         libpq-dev \
+        nodejs  \
+        npm \
     # install build-time dependencies
     && apk add --no-cache --virtual .build-deps \
         autoconf \

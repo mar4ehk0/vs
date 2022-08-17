@@ -1,19 +1,14 @@
 FROM php:8.1.4-fpm-alpine3.15  AS base-runtime
 
 ENV PS1='\[\033[1;36m\][${DOCKER_USER-user}@\H] \[\033[1;34m\]\w\[\033[0;35m\] \[\033[1;36m\]# \[\033[0m\]'
-#ENV HOME="/home/user"
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
-#ENV COMPOSER_HOME="${HOME}/.composer"
 
+ARG DOCKER_USER
 ARG DOCKER_GROUP_NAME
 ARG DOCKER_USER_UID
-ARG DOCKER_USER
 ARG DOCKER_USER_GID
 ARG WEBROOT_PATH
-ARG PUBLIC_PATH
-ARG STORAGE_PATH
-ARG APP_DOMAIN
 
 # install composer, image page: <https://hub.docker.com/_/composer>
 COPY --from=composer:2.2.6 /usr/bin/composer /usr/bin/composer
@@ -65,23 +60,15 @@ RUN curl 'http://pecl.php.net/get/redis-5.3.5.tgz' -o redis-5.3.5.tgz && pecl in
 # make clean up
 RUN  docker-php-source delete && apk del .build-deps
 
-COPY ./docker/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-
-RUN sed -i "s|%DOCKER_USER%|$DOCKER_USER|" /usr/local/etc/php-fpm.d/zz-docker.conf \
-    && sed -i "s|%DOCKER_GROUP_NAME%|$DOCKER_GROUP_NAME|" /usr/local/etc/php-fpm.d/zz-docker.conf
-
-#RUN wget -O /usr/local/bin/php-fpm-healthcheck \
-#https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
-#&& chmod +x /usr/local/bin/php-fpm-healthcheck
-
 WORKDIR $WEBROOT_PATH
 
 FROM base-runtime AS develop-runtime
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+# install debuger
+RUN apk --no-cache add shadow autoconf make g++ \
+ && curl 'http://pecl.php.net/get/xdebug-3.1.5.tgz' -o xdebug-3.1.5.tgz && pecl install xdebug-3.1.5.tgz \
+ && rm -rf xdebug-3.1.5.tgz && rm -rf /tmp/pear \
+ && docker-php-ext-enable xdebug
+COPY ./docker/php/conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
-## install debuger
-#RUN apk --no-cache add shadow autoconf make g++ \
-# && curl 'http://pecl.php.net/get/xdebug-3.1.5.tgz' -o xdebug-3.1.5.tgz && pecl install xdebug-3.1.5.tgz \
-# && rm -rf xdebug-3.1.5.tgz && rm -rf /tmp/pear \
-# && docker-php-ext-enable xdebug
-#COPY ./docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+FROM base-runtime AS production-runtime
+COPY ./docker/php/conf/php.ini /usr/local/etc/php

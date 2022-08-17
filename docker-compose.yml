@@ -1,17 +1,25 @@
 version: '3.9'
 
-x-services:
-  app: &app
+services:
+  application:
     build:
       context: .
-      dockerfile: .docker/Dockerfile
+      dockerfile: ./docker/php/Dockerfile
       target: develop-runtime
       args:
         - "APP_DOMAIN"
-    user: ${DOCKER_USER_UID}:${DOCKER_USER_GID}
+        - "DOCKER_GROUP_NAME"
+        - "DOCKER_USER_UID"
+        - "DOCKER_USER_GID"
+        - "DOCKER_USER"
+#        - "DOCKER_HOME"
+        - "WEBROOT_PATH"
+        - "PUBLIC_PATH"
+        - "STORAGE_PATH"
+#    user: ${DOCKER_USER_UID}:${DOCKER_USER_GID}
     restart: on-failure
     environment:
-      - "HOME=${DOCKER_HOME}"
+     # - "HOME=${DOCKER_HOME}"
       - "APP_NAME"
       - "APP_URL=http://${APP_DOMAIN}"
       - "DB_CONNECTION=${DB_CONNECTION-mysql}"
@@ -28,58 +36,76 @@ x-services:
       - "XDEBUG_MODE=${XDEBUG_MODE-off}"
       - "XDEBUG_HOST=host.docker.internal"
       - "PHP_IDE_CONFIG=serverName=Docker"
+      - "DOCKER_USER_UID"
+      - "DOCKER_USER_GID"
+      - "DOCKER_GROUP_NAME"
+      - "WEBROOT_PATH"
+      - "PUBLIC_PATH"
+      - "STORAGE_PATH"
     volumes:
-      - ./src:/app:rw
-      - user-data:${DOCKER_HOME}:rw
+      - ./src:${WEBROOT_PATH}:rw
+#      - user-data:${DOCKER_HOME}:rw
+      - ./docker/sock:/sock:rw
+#    healthcheck:
+#      test: [ "CMD-SHELL", "FCGI_CONNECT=/sock/docker.sock php-fpm-healthcheck || exit 1"]
+#      interval: 1s
+#      timeout: 5s
+#      retries: 30
     depends_on:
-#      mysql:
-#        condition: service_healthy
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
 
-services:
-  api:
-    <<: *app
-    command: rr serve -c .rr.local.yaml
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      target: develop-runtime
+      args:
+        - "APP_DOMAIN"
+        - "DOCKER_GROUP_NAME"
+        - "DOCKER_USER_UID"
+        - "DOCKER_USER_GID"
+        - "DOCKER_USER"
+        - "WEBROOT_PATH"
+        - "PUBLIC_PATH"
+        - "STORAGE_PATH"
+#    user: ${DOCKER_USER_UID}:${DOCKER_USER_GID}
+    restart: on-failure
+    environment:
+#      - "HOME=${DOCKER_HOME}"
+      - "APP_NAME"
+      - "APP_URL=http://${APP_DOMAIN}"
+      - "DB_CONNECTION=${DB_CONNECTION-mysql}"
+      - "SESSION_CONNECTION=${SESSION_CONNECTION-mysql}"
+      - "DB_HOST=postgres"
+      - "DB_PORT=5432"
+      - "DB_DATABASE"
+      - "DB_USERNAME"
+      - "DB_PASSWORD"
+      - "REDIS_HOST=redis"
+      - "REDIS_PASSWORD"
+      - "DOCKER_USER"
+      - "TELESCOPE_ENABLED"
+      - "XDEBUG_MODE=${XDEBUG_MODE-off}"
+      - "XDEBUG_HOST=host.docker.internal"
+      - "PHP_IDE_CONFIG=serverName=Docker"
+      - "DOCKER_USER_UID"
+      - "DOCKER_USER_GID"
+      - "DOCKER_GROUP_NAME"
+      - "WEBROOT_PATH"
+      - "PUBLIC_PATH"
+      - "STORAGE_PATH"
     ports:
-      - ${FORWARD_HTTP_PORT}:8080/tcp
-      - ${FORWARD_HTTPS_PORT}:8443/tcp
-      - ${FORWARD_HEALTH_PORT}:8082/tcp
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    healthcheck:
-      test: ['CMD-SHELL', ' curl -i "http://127.0.0.1:8082/health?plugin=server"']
-      interval: 2s
-      timeout: 2s
-
-  queue:
-    <<: *app
-    command: php ./artisan queue:work --memory=256 --sleep=1
-
-  cron:
-    <<: *app
-    command: supercronic /etc/supercronic/laravel # it runs artisan schedule:run
-
-#  mysql:
-#    image: mysql:8.0.26
-#    environment:
-#      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-#      MYSQL_USER: "$DB_USERNAME"
-#      MYSQL_PASSWORD: "$DB_PASSWORD"
-#      MYSQL_DATABASE: "$DB_DATABASE"
-#      MYSQL_ROOT_PASSWORD: "$DB_PASSWORD"
-#    volumes:
-#      - "mysql-data:/var/lib/mysql"
-#    ports:
-#      - ${FORWARD_DB_PORT}:3306
-#    healthcheck:
-#      test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
-#      interval: 1s
-#      timeout: 5s
-#      retries: 30
-
+      - ${FORWARD_HTTP_PORT}:80
+      - ${FORWARD_HTTPS_PORT}:443
+    volumes:
+      - ./src:${WEBROOT_PATH}:rw
+#      - user-data:${DOCKER_HOME}:rw
+      - ./docker/sock:/sock:rw
+    depends_on:
+      - application
 
   postgres:
     image: postgres:13.3
@@ -109,6 +135,6 @@ services:
       timeout: 5s
 
 volumes:
-  user-data: {}
+#  user-data: {}
   redis-data: {}
   postgres-data: {}

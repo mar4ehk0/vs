@@ -1,0 +1,7 @@
+version: '3.9'
+
+services:
+  application:
+    volumes:
+      - ./docker/php/conf/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/php/conf/php.ini:/usr/local/etc/php/php.ini

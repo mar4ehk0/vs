@@ -5,7 +5,7 @@
 SHELL = /bin/bash
 
 ifeq (,$(wildcard ./.env))
-$(shell cp ./docker/.env.example ./.env)
+$(shell cp ./docker/.env.development.example ./.env)
 $(shell sed -i "s/^DOCKER_USER=.*/DOCKER_USER=$(shell id -un)/" ./.env)
 $(shell sed -i "s/^DOCKER_USER_UID=.*/DOCKER_USER_UID=$(shell id -u)/" ./.env)
 $(shell sed -i "s/^DOCKER_USER_GID=.*/DOCKER_USER_GID=$(shell id -g)/" ./.env)
@@ -44,8 +44,6 @@ endif
 .PHONY: up
 up: ## Create and start containers
 	docker compose up -d --remove-orphans
-#	docker compose up -d --remove-orphans --scale queue=2 api queue cron
-#	@docker compose exec -u root api chown -R $(DOCKER_USER_UID):$(DOCKER_USER_GID) $(DOCKER_HOME)
 	@printf "\n ⠿\e[30;32m %s \033[0m\n" 'Application available at http://$(APP_DOMAIN):$(FORWARD_HTTP_PORT) or https://$(APP_DOMAIN):$(FORWARD_HTTPS_PORT)';
 
 .PHONY: down

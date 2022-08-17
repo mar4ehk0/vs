@@ -64,11 +64,11 @@ WORKDIR $WEBROOT_PATH
 
 FROM base-runtime AS develop-runtime
 # install debuger
-RUN apk --no-cache add shadow autoconf make g++ \
- && curl 'http://pecl.php.net/get/xdebug-3.1.5.tgz' -o xdebug-3.1.5.tgz && pecl install xdebug-3.1.5.tgz \
- && rm -rf xdebug-3.1.5.tgz && rm -rf /tmp/pear \
- && docker-php-ext-enable xdebug
-COPY ./docker/php/conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+#RUN apk --no-cache add shadow autoconf make g++ \
+# && curl 'http://pecl.php.net/get/xdebug-3.1.5.tgz' -o xdebug-3.1.5.tgz && pecl install xdebug-3.1.5.tgz \
+# && rm -rf xdebug-3.1.5.tgz && rm -rf /tmp/pear \
+# && docker-php-ext-enable xdebug
+#COPY ./docker/php/conf/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 FROM base-runtime AS production-runtime
 COPY ./docker/php/conf/php.ini /usr/local/etc/php

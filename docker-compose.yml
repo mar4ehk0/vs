@@ -7,19 +7,13 @@ services:
       dockerfile: ./docker/php/Dockerfile
       target: develop-runtime
       args:
-        - "APP_DOMAIN"
+        - "DOCKER_USER"
         - "DOCKER_GROUP_NAME"
         - "DOCKER_USER_UID"
         - "DOCKER_USER_GID"
-        - "DOCKER_USER"
-#        - "DOCKER_HOME"
         - "WEBROOT_PATH"
-        - "PUBLIC_PATH"
-        - "STORAGE_PATH"
-#    user: ${DOCKER_USER_UID}:${DOCKER_USER_GID}
     restart: on-failure
     environment:
-     # - "HOME=${DOCKER_HOME}"
       - "APP_NAME"
       - "APP_URL=http://${APP_DOMAIN}"
       - "DB_CONNECTION=${DB_CONNECTION-mysql}"
@@ -44,13 +38,7 @@ services:
       - "STORAGE_PATH"
     volumes:
       - ./src:${WEBROOT_PATH}:rw
-#      - user-data:${DOCKER_HOME}:rw
       - ./docker/sock:/sock:rw
-#    healthcheck:
-#      test: [ "CMD-SHELL", "FCGI_CONNECT=/sock/docker.sock php-fpm-healthcheck || exit 1"]
-#      interval: 1s
-#      timeout: 5s
-#      retries: 30
     depends_on:
       postgres:
         condition: service_healthy
@@ -64,45 +52,25 @@ services:
       target: develop-runtime
       args:
         - "APP_DOMAIN"
+        - "DOCKER_USER"
         - "DOCKER_GROUP_NAME"
         - "DOCKER_USER_UID"
         - "DOCKER_USER_GID"
-        - "DOCKER_USER"
         - "WEBROOT_PATH"
         - "PUBLIC_PATH"
-        - "STORAGE_PATH"
-#    user: ${DOCKER_USER_UID}:${DOCKER_USER_GID}
     restart: on-failure
     environment:
-#      - "HOME=${DOCKER_HOME}"
       - "APP_NAME"
       - "APP_URL=http://${APP_DOMAIN}"
-      - "DB_CONNECTION=${DB_CONNECTION-mysql}"
-      - "SESSION_CONNECTION=${SESSION_CONNECTION-mysql}"
-      - "DB_HOST=postgres"
-      - "DB_PORT=5432"
-      - "DB_DATABASE"
-      - "DB_USERNAME"
-      - "DB_PASSWORD"
-      - "REDIS_HOST=redis"
-      - "REDIS_PASSWORD"
-      - "DOCKER_USER"
       - "TELESCOPE_ENABLED"
       - "XDEBUG_MODE=${XDEBUG_MODE-off}"
       - "XDEBUG_HOST=host.docker.internal"
       - "PHP_IDE_CONFIG=serverName=Docker"
-      - "DOCKER_USER_UID"
-      - "DOCKER_USER_GID"
-      - "DOCKER_GROUP_NAME"
-      - "WEBROOT_PATH"
-      - "PUBLIC_PATH"
-      - "STORAGE_PATH"
     ports:
       - ${FORWARD_HTTP_PORT}:80
       - ${FORWARD_HTTPS_PORT}:443
     volumes:
       - ./src:${WEBROOT_PATH}:rw
-#      - user-data:${DOCKER_HOME}:rw
       - ./docker/sock:/sock:rw
     depends_on:
       - application
@@ -135,6 +103,5 @@ services:
       timeout: 5s
 
 volumes:
-#  user-data: {}
   redis-data: {}
   postgres-data: {}

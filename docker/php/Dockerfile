@@ -8,15 +8,16 @@ ARG DOCKER_USER
 ARG DOCKER_GROUP_NAME
 ARG DOCKER_USER_UID
 ARG DOCKER_USER_GID
-ARG WEBROOT_PATH
+ARG SRC_PATH
+ARG LARAVEL_PATH
 
 # install composer, image page: <https://hub.docker.com/_/composer>
 COPY --from=composer:2.2.6 /usr/bin/composer /usr/bin/composer
 
 RUN addgroup -g $DOCKER_USER_GID $DOCKER_GROUP_NAME && \
     adduser -D -u $DOCKER_USER_UID $DOCKER_USER -G $DOCKER_GROUP_NAME && \
-    mkdir -p $WEBROOT_PATH && \
-    chown $DOCKER_USER: $WEBROOT_PATH
+    mkdir -p $SRC_PATH && \
+    chown $DOCKER_USER: $SRC_PATH
 
 RUN set -x \
     # install permanent dependencies
@@ -60,7 +61,7 @@ RUN curl 'http://pecl.php.net/get/redis-5.3.5.tgz' -o redis-5.3.5.tgz && pecl in
 # make clean up
 RUN  docker-php-source delete && apk del .build-deps
 
-WORKDIR $WEBROOT_PATH
+WORKDIR $LARAVEL_PATH
 
 FROM base-runtime AS develop-runtime
 # install debuger

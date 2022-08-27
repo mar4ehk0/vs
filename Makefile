@@ -30,14 +30,14 @@ build: ## Build containers
 init: ## Make full application initialization
 	docker compose up -d application
 	docker compose exec application composer install --ansi --prefer-dist
-ifeq (,$(wildcard ./src/.env))
-	$(shell cp ./src/.env.example ./src/.env)
+ifeq (,$(wildcard ./src/laravel/.env))
+	$(shell cp ./src/laravel/.env.example ./src/laravel/.env)
 	docker compose exec application php artisan key:generate
 endif
-	@rm -rf ./src/storage/faker_photo
-	@rm -rf ./src/storage/public
+	@rm -rf ./src/laravel/storage/faker_photo
+	@rm -rf ./src/laravel/storage/public
 	docker compose exec application php artisan migrate --force --seed
-	@rm -f ./src/public/storage
+	@rm -f ./src/laravel/public/storage
 	docker compose exec application php artisan storage:link
 	@$(MAKE) --no-print-directory up
 

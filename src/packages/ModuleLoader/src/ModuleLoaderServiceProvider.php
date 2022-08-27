@@ -18,7 +18,7 @@ class ModuleLoaderServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
+        var_dump(static::$publishGroups);
     }
 
 }

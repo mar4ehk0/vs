@@ -11,8 +11,7 @@
   ],
   "require": {},
   "autoload": {
-    "psr-4":
-    {
+    "psr-4": {
       "Mar4ehk0\\ModuleLoader\\": "src"
     }
   },

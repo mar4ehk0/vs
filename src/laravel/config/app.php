@@ -199,8 +199,9 @@ return [
          * Modules Service Providers
          */
 
-        Modules\VideoService\VideoServiceProvider::class,
+//        Modules\VideoService\VideoServiceProvider::class,
 
+        Mar4ehk0\ModuleLoader\ModuleLoaderServiceProvider::class,
     ],
 
     /*

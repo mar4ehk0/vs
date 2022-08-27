@@ -28,7 +28,8 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Modules\\": "modules/"
         }
     },
     "autoload-dev": {
@@ -36,7 +37,7 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "helpers/faker.php"
+            "modules/VideoService/helpers/faker.php"
         ]
     },
     "scripts": {
@@ -57,6 +58,12 @@
             "@php artisan key:generate --ansi"
         ]
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../ModuleLoader"
+        }
+    ],
     "extra": {
         "laravel": {
             "dont-discover": []

@@ -2,6 +2,11 @@
 # Makefile readme (ru): <http://linux.yaroslavl.ru/docs/prog/gnu_make_3-79_russian_manual.html>
 # Makefile readme (en): <https://www.gnu.org/software/make/manual/html_node/index.html#SEC_Contents>
 
+
+#php artisan vendor:publish --provider="Mar4ehk0\ModuleLoader\ModuleLoaderServiceProvider" --force
+#php artisan db:seed --class=Modules\\VideoService\\Database\\Seeders\\DatabaseSeeder
+
+
 SHELL = /bin/bash
 
 ifeq (,$(wildcard ./.env))
@@ -36,7 +41,9 @@ ifeq (,$(wildcard ./src/laravel/.env))
 endif
 	@rm -rf ./src/laravel/storage/faker_photo
 	@rm -rf ./src/laravel/storage/public
-	docker compose exec application php artisan migrate --force --seed
+	docker compose exec application php artisan vendor:publish --provider="Mar4ehk0\ModuleLoader\ModuleLoaderServiceProvider" --force
+	docker compose exec application php artisan migrate --force
+	docker compose exec application php artisan db:seed --class=Modules\\VideoService\\Database\\Seeders\\DatabaseSeeder
 	@rm -f ./src/laravel/public/storage
 	docker compose exec application php artisan storage:link
 	@$(MAKE) --no-print-directory up

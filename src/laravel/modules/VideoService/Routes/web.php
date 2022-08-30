@@ -1,5 +1,8 @@
 <?php
 
+namespace Modules\VideoService\Routes;
+
+use Auth;
 use App\Http\Controllers\FormatController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,15 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('format', FormatController::class)->names('format');
 });
 
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

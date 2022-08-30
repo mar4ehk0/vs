@@ -65,19 +65,16 @@ class ModuleLoaderServiceProvider extends ServiceProvider
 
     private function publishesMigrations(string $moduleName): void
     {
-        $class = 'Modules\\' . $moduleName . '\Database\Migrations\StructMigration';
-        if (class_exists($class)) {
-            $listMigration = call_user_func([$class, 'getMigrations']);
-            foreach ($listMigration as $className => $stubName) {
-                if (!class_exists($className)) {
-                    $source =  $this->modulesPath . '/' . $moduleName . '/Database/Migrations/' . $stubName;
-                    $destination = database_path(
-                        'migrations/' . date('Y_m_d_His') . '_' .
-                        str_replace('.stub', '', $stubName)
-                    );
-                    $this->publishes([$source => $destination], 'migrations');
-                }
+        $path = $this->modulesPath . '/' . $moduleName . '/Database/Migrations';
+        foreach (new DirectoryIterator($path) as $fileInfo) {
+            if (!$fileInfo->isFile()) {
+                continue;
             }
+            $source = $path . '/' . $fileInfo->getFilename();
+            $destination = database_path(
+                'migrations/' . str_replace('.stub', '', $fileInfo->getFilename())
+            );
+            $this->publishes([$source => $destination], 'migrations');
         }
     }
 

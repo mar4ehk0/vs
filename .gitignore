@@ -1,6 +1,6 @@
 /src/laravel/node_modules
 /src/laravel/public/build
-/src/laravel//public/hot
+/src/laravel/public/hot
 /src/laravel/public/storage
 /src/laravel/storage/*.key
 /src/*/vendor

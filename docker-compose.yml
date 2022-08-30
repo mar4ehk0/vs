@@ -34,7 +34,7 @@ services:
       - "DOCKER_USER_UID"
       - "DOCKER_USER_GID"
       - "DOCKER_GROUP_NAME"
-      - "WEBROOT_PATH"
+      - "LARAVEL_PATH"
       - "PUBLIC_PATH"
       - "STORAGE_PATH"
     volumes:

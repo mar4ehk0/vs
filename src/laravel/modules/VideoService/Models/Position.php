@@ -4,6 +4,7 @@ namespace Modules\VideoService\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\VideoService\Database\Factories\PositionFactory;
 
 class Position extends Model
 {
@@ -11,6 +12,11 @@ class Position extends Model
 
     protected $fillable = ['name'];
     public $timestamps = false;
+
+    protected static function newFactory()
+    {
+        return PositionFactory::new();
+    }
 
     public function videos()
     {

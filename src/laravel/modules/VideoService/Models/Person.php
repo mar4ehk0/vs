@@ -4,6 +4,7 @@ namespace Modules\VideoService\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\VideoService\Database\Factories\PersonFactory;
 use Modules\VideoService\Models\Interfaces\ModelMediaInterface;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -16,6 +17,11 @@ class Person extends Model implements ModelMediaInterface
     protected $fillable = [
         'name', 'last_name', 'birthday', 'about'
     ];
+
+    protected static function newFactory()
+    {
+        return PersonFactory::new();
+    }
 
     public function getNameMediaCollection(): string
     {

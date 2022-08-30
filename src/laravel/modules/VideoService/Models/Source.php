@@ -4,6 +4,7 @@ namespace Modules\VideoService\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\VideoService\Database\Factories\SourceFactory;
 
 class Source extends Model
 {
@@ -12,6 +13,11 @@ class Source extends Model
     protected $fillable = [
         'source_path'
     ];
+
+    protected static function newFactory()
+    {
+        return SourceFactory::new();
+    }
 
     public function format()
     {

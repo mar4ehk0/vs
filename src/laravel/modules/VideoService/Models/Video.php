@@ -4,6 +4,7 @@ namespace Modules\VideoService\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\VideoService\Database\Factories\VideoFactory;
 use Modules\VideoService\Models\Interfaces\ModelMediaInterface;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -15,6 +16,11 @@ class Video extends Model implements ModelMediaInterface
         'name', 'description', 'year', 'duration', 'country', 'age_limit', 'type'
     ];
     protected $casts = ['type' => Type::class];
+
+    protected static function newFactory()
+    {
+        return VideoFactory::new();
+    }
 
     public function getNameMediaCollection(): string
     {

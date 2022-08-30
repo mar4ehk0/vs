@@ -4,6 +4,7 @@ namespace Modules\VideoService\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Modules\VideoService\Database\Factories\GenreFactory;
 
 class Genre extends Model
 {
@@ -11,6 +12,12 @@ class Genre extends Model
 
     protected $fillable = ['name'];
     public $timestamps = false;
+
+    protected static function newFactory()
+    {
+        return GenreFactory::new();
+    }
+
 
     public function videos()
     {

@@ -3,8 +3,8 @@
 namespace Modules\VideoService\Routes;
 
 use Auth;
-use App\Http\Controllers\FormatController;
 use Illuminate\Support\Facades\Route;
+use Modules\VideoService\Http\Controller\Admin\FormatController;
 
 /*
 |--------------------------------------------------------------------------

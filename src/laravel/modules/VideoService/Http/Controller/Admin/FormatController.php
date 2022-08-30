@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\VideoService\Http\Controller\Admin;
 
-use App\Models\Format;
 use Illuminate\Http\Request;
+use Modules\VideoService\Http\Controller\BaseController;
+use Modules\VideoService\Models\Format;
 
-class FormatController extends Controller
+class FormatController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class FormatController extends Controller
     {
         $items = Format::all();
 
-        return view('format.index', compact('items'));
+        return view('videoservice::format.index', compact('items'));
     }
 
     /**

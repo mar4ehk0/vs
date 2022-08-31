@@ -9,7 +9,6 @@ ARG DOCKER_GROUP_NAME
 ARG DOCKER_USER_UID
 ARG DOCKER_USER_GID
 ARG SRC_PATH
-ARG LARAVEL_PATH
 
 # install composer, image page: <https://hub.docker.com/_/composer>
 COPY --from=composer:2.2.6 /usr/bin/composer /usr/bin/composer
@@ -61,7 +60,7 @@ RUN curl 'http://pecl.php.net/get/redis-5.3.5.tgz' -o redis-5.3.5.tgz && pecl in
 # make clean up
 RUN  docker-php-source delete && apk del .build-deps
 
-WORKDIR $LARAVEL_PATH
+WORKDIR $SRC_PATH
 
 FROM base-runtime AS develop-runtime
 # install debuger

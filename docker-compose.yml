@@ -12,7 +12,6 @@ services:
         - "DOCKER_USER_UID"
         - "DOCKER_USER_GID"
         - "SRC_PATH"
-        - "LARAVEL_PATH"
     restart: on-failure
     environment:
       - "APP_NAME"
@@ -34,7 +33,6 @@ services:
       - "DOCKER_USER_UID"
       - "DOCKER_USER_GID"
       - "DOCKER_GROUP_NAME"
-      - "LARAVEL_PATH"
       - "PUBLIC_PATH"
       - "STORAGE_PATH"
     volumes:
@@ -57,7 +55,6 @@ services:
         - "DOCKER_USER_UID"
         - "DOCKER_USER_GID"
         - "SRC_PATH"
-        - "LARAVEL_PATH"
         - "PUBLIC_PATH"
     restart: on-failure
     environment:

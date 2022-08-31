@@ -11,7 +11,7 @@ services:
         - "DOCKER_GROUP_NAME"
         - "DOCKER_USER_UID"
         - "DOCKER_USER_GID"
-        - "WEBROOT_PATH"
+        - "SRC_PATH"
     restart: on-failure
     environment:
       - "APP_NAME"
@@ -33,12 +33,10 @@ services:
       - "DOCKER_USER_UID"
       - "DOCKER_USER_GID"
       - "DOCKER_GROUP_NAME"
-      - "WEBROOT_PATH"
       - "PUBLIC_PATH"
       - "STORAGE_PATH"
     volumes:
-      - ./src:${WEBROOT_PATH}:rw
-      - ./docker/sock:/sock:rw
+      - ./src:${SRC_PATH}:rw
     depends_on:
       postgres:
         condition: service_healthy
@@ -56,7 +54,7 @@ services:
         - "DOCKER_GROUP_NAME"
         - "DOCKER_USER_UID"
         - "DOCKER_USER_GID"
-        - "WEBROOT_PATH"
+        - "SRC_PATH"
         - "PUBLIC_PATH"
     restart: on-failure
     environment:
@@ -70,8 +68,7 @@ services:
       - ${FORWARD_HTTP_PORT}:80
       - ${FORWARD_HTTPS_PORT}:443
     volumes:
-      - ./src:${WEBROOT_PATH}:rw
-      - ./docker/sock:/sock:rw
+      - ./src:${SRC_PATH}:rw
     depends_on:
       - application
 

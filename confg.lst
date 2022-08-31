@@ -1,0 +1,128 @@
+services:
+  application:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+      args:
+        APP_DOMAIN: localhost
+        DOCKER_GROUP_NAME: videogroup
+        DOCKER_USER: alex
+        DOCKER_USER_GID: "1000"
+        DOCKER_USER_UID: "1000"
+        PUBLIC_PATH: /var/www/public
+        STORAGE_PATH: /var/www/storage
+        WEBROOT_PATH: /var/www
+      target: develop-runtime
+    environment:
+      APP_NAME: Video-service
+      APP_URL: http://localhost
+      DB_CONNECTION: pgsql
+      DB_DATABASE: vs-db
+      DB_HOST: postgres
+      DB_PASSWORD: vs-secret
+      DB_PORT: "5432"
+      DB_USERNAME: vs-user
+      DOCKER_GROUP_NAME: videogroup
+      DOCKER_USER: alex
+      DOCKER_USER_GID: "1000"
+      DOCKER_USER_UID: "1000"
+      PHP_IDE_CONFIG: serverName=Docker
+      PUBLIC_PATH: /var/www/public
+      REDIS_HOST: redis
+      REDIS_PASSWORD: vs-secret
+      SESSION_CONNECTION: postgres
+      STORAGE_PATH: /var/www/storage
+      TELESCOPE_ENABLED: null
+      WEBROOT_PATH: /var/www
+      XDEBUG_HOST: host.docker.internal
+      XDEBUG_MODE: debug
+    networks:
+      default: null
+    restart: on-failure
+    volumes:
+    - type: bind
+      source: ./docker/sock
+      target: /sock
+      bind:
+        create_host_path: true
+    - type: bind
+      source: ./docker/php/conf/www.conf
+      target: /usr/local/etc/php-fpm.d/www.conf
+      bind:
+        create_host_path: true
+    - type: bind
+      source: ./docker/php/conf/php.ini
+      target: /usr/local/etc/php/php.ini
+      bind:
+        create_host_path: true
+    - type: bind
+      source: ./src
+      target: /var/www
+      bind:
+        create_host_path: true
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      args:
+        APP_DOMAIN: localhost
+        DOCKER_GROUP_NAME: videogroup
+        DOCKER_USER: alex
+        DOCKER_USER_GID: "1000"
+        DOCKER_USER_UID: "1000"
+        PUBLIC_PATH: /var/www/public
+        STORAGE_PATH: /var/www/storage
+        WEBROOT_PATH: /var/www
+      target: develop-runtime
+    depends_on:
+      application:
+        condition: service_started
+    environment:
+      APP_NAME: Video-service
+      APP_URL: http://localhost
+      DB_CONNECTION: pgsql
+      DB_DATABASE: vs-db
+      DB_HOST: postgres
+      DB_PASSWORD: vs-secret
+      DB_PORT: "5432"
+      DB_USERNAME: vs-user
+      DOCKER_GROUP_NAME: videogroup
+      DOCKER_USER: alex
+      DOCKER_USER_GID: "1000"
+      DOCKER_USER_UID: "1000"
+      PHP_IDE_CONFIG: serverName=Docker
+      PUBLIC_PATH: /var/www/public
+      REDIS_HOST: redis
+      REDIS_PASSWORD: vs-secret
+      SESSION_CONNECTION: postgres
+      STORAGE_PATH: /var/www/storage
+      TELESCOPE_ENABLED: null
+      WEBROOT_PATH: /var/www
+      XDEBUG_HOST: host.docker.internal
+      XDEBUG_MODE: debug
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: 8081
+      protocol: tcp
+    - mode: ingress
+      target: 443
+      published: 443
+      protocol: tcp
+    restart: on-failure
+    volumes:
+    - type: bind
+      source: ./src
+      target: /var/www
+      bind:
+        create_host_path: true
+    - type: bind
+      source: ./docker/sock
+      target: /sock
+      bind:
+        create_host_path: true
+networks:
+  default:
+    name: vs_default

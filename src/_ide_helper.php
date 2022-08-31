@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.23.0.
+ * Generated for Laravel 9.27.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -4227,6 +4227,52 @@
                         /** @var \Illuminate\Config\Repository $instance */
                         $instance->offsetUnset($key);
         }
+                    /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Config\Repository::macro($name, $macro);
+        }
+                    /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Config\Repository::mixin($mixin, $replace);
+        }
+                    /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Config\Repository::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Config\Repository::flushMacros();
+        }
          
     }
             /**
@@ -4256,7 +4302,7 @@
                         return $instance->make($name, $value, $minutes, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
         }
                     /**
-         * Create a cookie that lasts "forever" (five years).
+         * Create a cookie that lasts "forever" (400 days).
          *
          * @param string $name
          * @param string $value
@@ -8263,6 +8309,7 @@
      * @method static void alwaysReplyTo(string $address, string|null $name = null)
      * @method static void alwaysReturnPath(string $address)
      * @method static void alwaysTo(string $address, string|null $name = null)
+     * @method static \Illuminate\Mail\PendingMail cc($users)
      * @method static \Illuminate\Mail\SentMessage|null plain(string $view, array $data, $callback)
      * @method static \Illuminate\Mail\SentMessage|null html(string $html, $callback)
      * @method static mixed laterOn(string $queue, \DateTimeInterface|\DateInterval|int $delay, \Illuminate\Contracts\Mail\Mailable|string|array $view)
@@ -8951,6 +8998,17 @@
         {
                         /** @var \Illuminate\Support\Testing\Fakes\NotificationFake $instance */
                         return $instance->hasSent($notifiable, $notification);
+        }
+                    /**
+         * Get the notifications that have been sent.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function sentNotifications()
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\NotificationFake $instance */
+                        return $instance->sentNotifications();
         }
                     /**
          * Register a custom macro.
@@ -11999,13 +12057,13 @@
          * Dump the request items and end the script.
          *
          * @param mixed $keys
-         * @return void 
+         * @return \Illuminate\Http\never 
          * @static 
          */ 
         public static function dd(...$keys)
         {
                         /** @var \Illuminate\Http\Request $instance */
-                        $instance->dd(...$keys);
+                        return $instance->dd(...$keys);
         }
                     /**
          * Dump the items.
@@ -16771,6 +16829,53 @@
                         return $instance->useIntegrityKey($key);
         }
                     /**
+         * Set the Vite entry points.
+         *
+         * @param array $entryPoints
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function withEntryPoints($entryPoints)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->withEntryPoints($entryPoints);
+        }
+                    /**
+         * Get the Vite "hot" file path.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function hotFile()
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->hotFile();
+        }
+                    /**
+         * Set the Vite "hot" file path.
+         *
+         * @param string $path
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function useHotFile($path)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->useHotFile($path);
+        }
+                    /**
+         * Set the Vite build directory.
+         *
+         * @param string $path
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function useBuildDirectory($path)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->useBuildDirectory($path);
+        }
+                    /**
          * Use the given callback to resolve attributes for script tags.
          *
          * @param \Illuminate\Foundation\(callable(string,  string, ?array, ?array): array)|array  $attributes
@@ -16804,6 +16909,30 @@
         {
                         /** @var \Illuminate\Foundation\Vite $instance */
                         return $instance->reactRefresh();
+        }
+                    /**
+         * Get the URL for an asset.
+         *
+         * @param string $asset
+         * @param string|null $buildDirectory
+         * @return string 
+         * @static 
+         */ 
+        public static function asset($asset, $buildDirectory = null)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->asset($asset, $buildDirectory);
+        }
+                    /**
+         * Get the Vite tag content as a string of HTML.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function toHtml()
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->toHtml();
         }
          
     }
@@ -19666,7 +19795,7 @@ namespace  {
                 /**
              * Makes "from" fetch from a subquery.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
              * @param string $as
              * @return \Illuminate\Database\Query\Builder 
              * @throws \InvalidArgumentException
@@ -19903,7 +20032,7 @@ namespace  {
                 /**
              * Add a subquery cross join to the query.
              *
-             * @param \Closure|\Illuminate\Database\Query\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
              * @param string $as
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -20362,7 +20491,7 @@ namespace  {
              *
              * @param string $column
              * @param string $operator
-             * @param \DateTimeInterface|string|null $value
+             * @param \DateTimeInterface|string|int|null $value
              * @param string $boolean
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -20378,7 +20507,7 @@ namespace  {
              *
              * @param string $column
              * @param string $operator
-             * @param \DateTimeInterface|string|null $value
+             * @param \DateTimeInterface|string|int|null $value
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -20393,7 +20522,7 @@ namespace  {
              *
              * @param string $column
              * @param string $operator
-             * @param \DateTimeInterface|string|null $value
+             * @param \DateTimeInterface|string|int|null $value
              * @param string $boolean
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -20409,7 +20538,7 @@ namespace  {
              *
              * @param string $column
              * @param string $operator
-             * @param \DateTimeInterface|string|null $value
+             * @param \DateTimeInterface|string|int|null $value
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -21460,7 +21589,7 @@ namespace  {
              * Insert new records into the table using a subquery.
              *
              * @param array $columns
-             * @param \Closure|\Illuminate\Database\Query\Builder|string $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|string $query
              * @return int 
              * @static 
              */ 

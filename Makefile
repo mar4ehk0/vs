@@ -36,16 +36,14 @@ init: ## Make full application initialization
 	docker compose up -d application
 	docker compose exec application composer install --ansi --prefer-dist
 ifeq (,$(wildcard ./src/laravel/.env))
-	$(shell cp ./src/laravel/.env.example ./src/laravel/.env)
+	$(shell cp ./src/.env.example ./src/.env)
 	docker compose exec application php artisan key:generate
 endif
-	@rm -rf ./src/laravel/storage/faker_photo
-	@rm -rf ./src/laravel/storage/public
-	docker compose exec application php artisan vendor:publish --provider="Mar4ehk0\ModuleLoader\ModuleLoaderServiceProvider" --force
-	docker compose exec application php artisan migrate --force
-	docker compose exec application php artisan db:seed --class=Modules\\VideoService\\Database\\Seeders\\DatabaseSeeder
-	@rm -f ./src/laravel/public/storage
-	docker compose exec application php artisan storage:link
+	@rm -rf ./src/storage/faker_photo
+	@rm -rf ./src/storage/app/public
+	docker compose exec --user=$(DOCKER_USER) application php artisan migrate --force --seed
+	@rm -f ./src/public/storage
+	docker compose exec --user=$(DOCKER_USER) application php artisan storage:link
 	@$(MAKE) --no-print-directory up
 
 .PHONY: up
@@ -59,7 +57,7 @@ down: ## Stop containers
 
 .PHONY: shell sh
 shell: ## Start shell into app container
-	@(docker compose run --rm application ash) || true
+	@(docker compose run --rm --user=$(DOCKER_USER) application ash) || true
 sh: shell
 
 .PHONY: tinker ti

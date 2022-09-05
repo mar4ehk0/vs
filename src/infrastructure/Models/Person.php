@@ -4,8 +4,8 @@ namespace Infrastructure\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-//use Modules\VideoService\Database\Factories\PersonFactory;
 use Infrastructure\Models\Interfaces\ModelMediaInterface;
+use Modules\Person\Database\Factories\PersonFactory;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Person extends Model implements ModelMediaInterface
@@ -18,10 +18,10 @@ class Person extends Model implements ModelMediaInterface
         'name', 'last_name', 'birthday', 'about'
     ];
 
-//    protected static function newFactory()
-//    {
-//        return PersonFactory::new();
-//    }
+    protected static function newFactory()
+    {
+        return PersonFactory::new();
+    }
 
     public function getNameMediaCollection(): string
     {

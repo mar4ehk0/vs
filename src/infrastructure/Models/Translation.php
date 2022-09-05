@@ -4,7 +4,7 @@ namespace Infrastructure\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-//use Modules\VideoService\Database\Factories\TranslationFactory;
+use Modules\Translation\Database\Factories\TranslationFactory;
 
 class Translation extends Model
 {
@@ -13,10 +13,10 @@ class Translation extends Model
     protected $fillable = ['name'];
     public $timestamps = false;
 
-//    protected static function newFactory()
-//    {
-//        return TranslationFactory::new();
-//    }
+    protected static function newFactory()
+    {
+        return TranslationFactory::new();
+    }
 
     public function videos()
     {

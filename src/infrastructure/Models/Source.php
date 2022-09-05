@@ -4,7 +4,7 @@ namespace Infrastructure\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-//use Modules\VideoService\Database\Factories\SourceFactory;
+use Modules\Source\Database\Factories\SourceFactory;
 
 class Source extends Model
 {
@@ -14,10 +14,10 @@ class Source extends Model
         'source_path'
     ];
 
-//    protected static function newFactory()
-//    {
-//        return SourceFactory::new();
-//    }
+    protected static function newFactory()
+    {
+        return SourceFactory::new();
+    }
 
     public function format()
     {

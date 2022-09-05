@@ -2,7 +2,7 @@
 
 use App\Providers\PicsumImage;
 use Faker\Generator;
-use Modules\VideoService\Models\Interfaces\ModelMediaInterface;
+use Infrastructure\Models\Interfaces\ModelMediaInterface;
 
 if (!function_exists('get_img_directory')) {
     function get_img_directory(): string
